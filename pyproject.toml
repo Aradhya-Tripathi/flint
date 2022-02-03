@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "flint"
+version = "0.1.0"
+description = "Simple CLI utility for Fire-Watch"
+authors = ["Aradhya <aradhyatripathi51@gmail.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+click = "^8.0.3"
+black = "^22.1.0"
+PyJWT = "^2.3.0"
+httpx = "^0.22.0"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.poetry.scripts]
+flint = 'flint.run:run'
