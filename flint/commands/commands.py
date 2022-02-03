@@ -15,3 +15,10 @@ def register():
     from flint.commands.auth import register
 
     register()
+
+
+@click.command("get-data", help="Get logged data")
+def get_data():
+    from flint.commands.user import get_data
+
+    get_data()
