@@ -1,8 +1,8 @@
 from json import JSONDecodeError
-import sys
 
-import click
 from httpx import Response
+
+from flint.utils.log import exit_with_message
 
 
 def on_failure(response: Response):
@@ -12,8 +12,5 @@ def on_failure(response: Response):
             message = response.json().get("error")
         except JSONDecodeError:
             message = None
-        click.secho(
-            f"Request failed with status: {response.status_code}\nmessage: {message}",
-            fg="red",
-        )
-        sys.exit(-1)
+        finally:
+            exit_with_message(msg=message, fg="red", bg="black")
