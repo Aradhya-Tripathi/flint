@@ -1,8 +1,10 @@
 import httpx
 from flint import domain, protocal
-from flint.auth import TokenAuth
+from flint.hooks import on_failure
 from flint.user import User
-
+from flint.utils.auth import TokenAuth
+from flint.utils.data import dump_json
+from flint.utils.log import exit_with_message
 
 user = User()
 
@@ -11,10 +13,12 @@ user_client = httpx.Client(
     headers={"Content-Type": "application/json"},
     http2=True,
     auth=TokenAuth(user.tokens),
+    event_hooks={"response": [on_failure]},
 )
 
 user_details = "user/details"
 
 
-def get_data():
-    response = user_client.get(user_details)
+def get_data(file, raw):
+    response = user_client.get(user_details).json()
+    ...
