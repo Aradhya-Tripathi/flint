@@ -1,9 +1,6 @@
-import sys
-
-import click
-
 from flint import domain
 from flint.utils.auth import Netrc
+from flint.utils.log import exit_with_message
 
 
 class User:
@@ -18,5 +15,4 @@ class User:
         try:
             return self.netrc.hosts[domain]
         except KeyError:
-            click.secho("Please login first using flint login", fg="red")
-            sys.exit(-1)
+            exit_with_message("Please login or register first!", fg="yellow")
