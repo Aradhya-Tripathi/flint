@@ -24,3 +24,18 @@ def get_data(file, raw):
     from flint.commands.user import get_data
 
     get_data(file, raw)
+
+
+@click.command("logout", help="Log out current user")
+def logout():
+    from flint.commands.auth import logout
+
+    logout()
+
+
+@click.command("reset-password", help="Reset password")
+@click.argument("Email")
+def reset_password(email: str):
+    from flint.commands.auth import reset_password
+
+    reset_password(email)
