@@ -9,8 +9,8 @@ def on_failure(response: Response):
     response.read()
     if response.is_error:
         try:
-            message = response.json().get("error")
-        except JSONDecodeError:
-            message = None
+            message = response.json()["error"]
+        except (JSONDecodeError, KeyError):
+            message = f"Error Occurred! Status Code: {response.status_code}"
         finally:
-            exit_with_message(msg=message, fg="red", bg="black")
+            exit_with_message(msg=message, fg="red")

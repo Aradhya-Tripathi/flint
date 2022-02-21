@@ -4,7 +4,6 @@ from flint.hooks import on_failure
 from flint.user import User
 from flint.utils.auth import TokenAuth
 from flint.utils.data import dump_json
-from flint.utils.log import exit_with_message
 
 user = User()
 
@@ -21,4 +20,4 @@ user_details = "user/details"
 
 def get_data(file, raw):
     response = user_client.get(user_details).json()
-    ...
+    dump_json(response)

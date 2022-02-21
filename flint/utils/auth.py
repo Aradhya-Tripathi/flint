@@ -8,7 +8,6 @@ import jwt
 from flint import domain, protocal
 from flint.utils.log import exit_with_message
 
-
 NETRC_PATH = os.path.join(os.path.expanduser("~"), ".netrc")
 
 
@@ -19,6 +18,8 @@ class Netrc(netrc):
             super().__init__(self.file)
         except FileNotFoundError:
             open(self.file, "w")
+            st = os.stat(self.file)
+            os.chmod(self.file, st.st_mode)
         finally:
             super().__init__(self.file)
 
@@ -86,7 +87,13 @@ def format_token(token: Dict[str, str]):
     return ":".join([token.get("access_token"), token.get("refresh_token")])
 
 
-def is_valid(token: str):
+def token_from_netrc(tokens: str):
+    access_token, refresh_token = tokens.split(":")
+    return access_token, refresh_token
+
+
+def is_valid(tokens):
+    token, _ = token_from_netrc(tokens)
     payload = jwt.decode(
         token, algorithms=["HS256"], options={"verify_signature": False}
     )
