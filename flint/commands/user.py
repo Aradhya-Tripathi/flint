@@ -18,6 +18,6 @@ user_client = httpx.Client(
 user_details = "user/details"
 
 
-def get_data(file, raw):
+def get_data(file):
     response = user_client.get(user_details).json()
     dump_json(response)

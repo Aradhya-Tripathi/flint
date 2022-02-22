@@ -19,11 +19,10 @@ def register():
 
 @click.command("get-data", help="Get logged data")
 @click.option("--file", help="/path/to/data/dump")
-@click.option("--raw", default=False, is_flag=True)
-def get_data(file, raw):
+def get_data(file):
     from flint.commands.user import get_data
 
-    get_data(file, raw)
+    get_data(file)
 
 
 @click.command("logout", help="Log out current user")
