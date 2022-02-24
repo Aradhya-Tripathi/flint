@@ -38,3 +38,19 @@ def reset_password(email: str):
     from flint.commands.auth import reset_password
 
     reset_password(email)
+
+
+@click.command("remove-account", help="Delete current user account")
+@click.option("--force", is_flag=True, default=False, help="Force remove account")
+def remove_account(force=False):
+    from flint.commands.user import remove_account
+
+    remove_account(force)
+
+
+@click.command("whoami", help="Currently logged in user")
+@click.option("--verbose", is_flag=True, help="Display all account details")
+def whoami(verbose):
+    from flint.commands.user import whoami
+
+    whoami(verbose)
