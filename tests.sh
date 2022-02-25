@@ -19,7 +19,7 @@ cd ../
 sleep 5s
 
 echo -e "$execution Starting tests"
-py -m unittest -v flint.tests.test_commands
+python -m unittest -v flint.tests.test_commands
 
 
 # Killing server after running tests
