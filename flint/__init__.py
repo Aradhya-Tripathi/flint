@@ -7,7 +7,7 @@ import os
 
 __version__ = "0.1.0"
 
-domain = "fire-watch-lite.herokuapp.com"
+domain = "fire-watch-lite.aradhya.tech"
 protocal = "https://"
 
 if os.getenv("CI"):
