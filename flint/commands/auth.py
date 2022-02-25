@@ -33,7 +33,7 @@ def login(email: str, force_login: bool = False, password: str = None):
         if is_valid(creds[2]):
             exit_with_message(
                 msg=f"Logged in as {creds[1] or creds[0]}", fg="green", error_code=0
-)            
+            )
 
         del netrc.hosts[domain]
         netrc.save()
