@@ -2,11 +2,14 @@ import click
 
 
 @click.group()
-def flint_commands():
+@click.option("--verbose/--quite", default=False)
+@click.pass_context
+def flint_commands(ctx, verbose):
     """
     Command line tool for Fire-Watch
     """
-    import flint
+    ctx.ensure_object(dict)
+    ctx.obj["verbose"] = verbose
 
 
 # Authentication
