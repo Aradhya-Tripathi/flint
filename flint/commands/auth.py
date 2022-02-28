@@ -5,7 +5,7 @@ from flint import domain, protocal
 from flint.hooks import on_failure
 from flint.utils import _dict
 from flint.utils.auth import Netrc, format_token, is_valid, token_from_netrc
-from flint.utils.log import exit_with_message
+from flint.utils import exit_with_message
 
 # Ambiguous route :)
 register_route = "/register"

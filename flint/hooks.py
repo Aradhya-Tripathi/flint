@@ -2,7 +2,7 @@ from json import JSONDecodeError
 
 from httpx import Response
 
-from flint.utils.log import exit_with_message
+from flint.utils import exit_with_message
 
 
 def on_failure(response: Response):

@@ -5,7 +5,7 @@ from flint.hooks import on_failure
 from flint.user import User
 from flint.utils.auth import TokenAuth
 from flint.utils.data import dump_json
-from flint.utils.log import exit_with_message
+from flint.utils import exit_with_message
 
 user = User()
 
