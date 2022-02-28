@@ -3,9 +3,8 @@ import httpx
 import jwt
 from flint import domain, protocal
 from flint.hooks import on_failure
-from flint.utils import _dict
+from flint.utils import _dict, _exit
 from flint.utils.auth import Netrc, format_token, is_valid, token_from_netrc
-from flint.utils import exit_with_message
 
 # Ambiguous route :)
 register_route = "/register"
@@ -27,12 +26,15 @@ client = httpx.Client(
 netrc = Netrc()
 
 
-def login(email: str, force_login: bool = False, password: str = None):
+def login(ctx, email: str, force_login: bool = False, password: str = None):
     if not force_login and domain in netrc.hosts and netrc.hosts[domain][1] == email:
         creds = netrc.authenticators(domain)
         if is_valid(creds[2]):
-            exit_with_message(
-                msg=f"Logged in as {creds[1] or creds[0]}", fg="green", error_code=0
+            _exit(
+                ctx,
+                msg=f"Logged in as {creds[1] or creds[0]}",
+                fg="green",
+                error_code=0,
             )
 
         del netrc.hosts[domain]
@@ -55,35 +57,56 @@ def login(email: str, force_login: bool = False, password: str = None):
         {domain: (user_data["email"], user_data["user_name"], credentials)}
     )
     netrc.save()
-    click.secho(f"Logged in as {user_data['user_name']}", fg="green")
-
-
-def register():
-    data = _dict(
-        user_name=click.prompt("Enter user name"),
-        email=click.prompt("Enter email"),
-        units=click.prompt("Enter number of units", type=int),
-        password=click.prompt(
-            "Enter password", confirmation_prompt=True, hide_input=True
-        ),
+    msg = f"Logged in as {user_data['user_name']}"
+    _exit(
+        ctx,
+        msg,
+        response=response,
+        fg="green",
     )
-    client.post(register_route, data=data.json_data)
-    click.secho(f"Registered {data['user_name']}", fg="green")
 
 
-def logout():
+def register(ctx, no_input, user_name, email, units, password):
+    if no_input:
+        data = _dict(
+            user_name=user_name,
+            email=email,
+            units=units,
+            password=password,
+        )
+    else:
+        data = _dict(
+            user_name=click.prompt("Enter user name"),
+            email=click.prompt("Enter email"),
+            units=click.prompt("Enter number of units", type=int),
+            password=click.prompt(
+                "Enter password", confirmation_prompt=True, hide_input=True
+            ),
+        )
+    response = client.post(register_route, data=data.json_data)
+    msg = f"Registered {data['user_name']}"
+    _exit(ctx, msg, fg="green", response=response)
+
+
+def logout(ctx):
     if creds := netrc.authenticators(domain):
         access_token, refresh_token = token_from_netrc(creds[2])
         data = _dict(access_token=access_token, refresh_token=refresh_token).json_data
-        client.post(logout_route, data=data)
+        response = client.post(logout_route, data=data)
         del netrc.hosts[domain]
         netrc.save()
-        click.secho(f"Logged out {creds[1]}", fg="green")
+        msg = f"Logged out {creds[1]}"
+        _exit(ctx, msg, response=response, fg="green", error_code=0)
     else:
-        click.secho("No user logged in!", fg="yellow")
+        _exit(
+            ctx,
+            msg=f"No user logged in!",
+            fg="yellow",
+            error_code=-1,
+        )
 
 
-def reset_password(email: str):
+def reset_password(ctx, email: str):
     old_passwd = click.prompt("Old Password", hide_input=True)
     new_passwd = click.prompt("New Passowrd", confirmation_prompt=True, hide_input=True)
 
