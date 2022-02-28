@@ -2,7 +2,7 @@ import httpx
 
 from flint import domain, protocal
 from flint.commands import flint_commands
-from flint.utils.log import exit_with_message
+from flint.utils import exit_with_message
 
 
 def run():

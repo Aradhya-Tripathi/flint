@@ -1,6 +1,6 @@
 from flint import domain
 from flint.utils.auth import Netrc
-from flint.utils.log import exit_with_message
+from flint.utils import exit_with_message
 
 
 class User:

@@ -6,7 +6,7 @@ from typing import Dict
 import httpx
 import jwt
 from flint import domain, protocal
-from flint.utils.log import exit_with_message
+from flint.utils import exit_with_message
 
 NETRC_PATH = os.path.join(os.path.expanduser("~"), ".netrc")
 
