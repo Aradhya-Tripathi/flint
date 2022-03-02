@@ -1,7 +1,7 @@
 import subprocess
+from shlex import split
 
 
 def execute(cmd, output=False, **kwargs):
-    if output:
-        return subprocess.check_output(cmd, **kwargs)
-    return subprocess.call(cmd, **kwargs)
+    cmd = split(cmd)
+    return subprocess.run(cmd, capture_output=output, **kwargs)
