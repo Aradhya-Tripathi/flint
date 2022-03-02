@@ -4,26 +4,24 @@ import click
 @click.command("login", help="Login in to fire-watch")
 @click.argument("Email")
 @click.option("--force-login", is_flag=True, default=False)
+@click.option("--password")
 @click.pass_context
-def login(ctx, email, force_login=False):
+def login(ctx, email, password, force_login=False):
     from flint.commands.auth import login
 
-    login(ctx, email, force_login)
+    login(ctx, email, force_login, password)
 
 
 @click.command("register", help="Register new user")
-@click.option(
-    "--no-input", is_flag=True, default=False, help="Add user without prompts"
-)
 @click.option("--user-name", default=None, help="User name")
 @click.option("--email", default=None, help="User email")
 @click.option("--units", type=int, default=None, help="Number of units")
 @click.option("--password", default=None, help="Password")
 @click.pass_context
-def register(ctx, no_input, user_name, email, units, password):
+def register(ctx, user_name, email, units, password):
     from flint.commands.auth import register
 
-    register(ctx, no_input, user_name, email, units, password)
+    register(ctx, user_name, email, units, password)
 
 
 @click.command("get-data", help="Get logged data")

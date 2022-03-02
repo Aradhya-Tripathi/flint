@@ -39,9 +39,10 @@ def login(ctx, email: str, force_login: bool = False, password: str = None):
 
         del netrc.hosts[domain]
         netrc.save()
-
     password = (
-        click.prompt("Enter password", hide_input=True) if not password else password
+        (click.prompt("Enter password", hide_input=True) if not password else password)
+        if not ctx.obj["no_input"]
+        else password
     )
     data = _dict(email=email, password=password).json_data
     response = client.post(login_route, data=data)
@@ -66,8 +67,8 @@ def login(ctx, email: str, force_login: bool = False, password: str = None):
     )
 
 
-def register(ctx, no_input, user_name, email, units, password):
-    if no_input:
+def register(ctx, user_name, email, units, password):
+    if ctx.obj["no_input"]:
         data = _dict(
             user_name=user_name,
             email=email,
