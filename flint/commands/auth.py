@@ -40,7 +40,7 @@ def login(ctx, email: str, force_login: bool = False, password: str = None):
         del netrc.hosts[domain]
         netrc.save()
     password = (
-        (click.prompt("Enter password", hide_input=True) if not password else password)
+        click.prompt("Enter password", hide_input=True)
         if not ctx.obj["no_input"]
         else password
     )
