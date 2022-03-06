@@ -16,8 +16,8 @@ def exit_with_message(msg, fg=None, bg=None, error_code=-1):
     sys.exit(error_code)
 
 
-def _exit(ctx, msg, **kwargs):
-    if ctx.obj["verbose"]:
+def _exit(msg, ctx=None, **kwargs):
+    if ctx and ctx.obj["verbose"]:
         if response := kwargs.get("response"):
             msg += f"\nStatus Code: {response.status_code}, Json Response: {response.json()}"
 

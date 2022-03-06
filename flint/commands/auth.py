@@ -31,7 +31,7 @@ def login(ctx, email: str, force_login: bool = False, password: str = None):
         creds = netrc.authenticators(domain)
         if is_valid(creds[2]):
             _exit(
-                ctx,
+                ctx=ctx,
                 msg=f"Logged in as {creds[1] or creds[0]}",
                 fg="green",
                 error_code=0,
@@ -60,8 +60,8 @@ def login(ctx, email: str, force_login: bool = False, password: str = None):
     netrc.save()
     msg = f"Logged in as {user_data['user_name']}"
     _exit(
-        ctx,
-        msg,
+        ctx=ctx,
+        msg=msg,
         response=response,
         fg="green",
     )
@@ -86,7 +86,7 @@ def register(ctx, user_name, email, units, password):
         )
     response = client.post(register_route, data=data.json_data)
     msg = f"Registered {data['user_name']}"
-    _exit(ctx, msg, fg="green", response=response)
+    _exit(ctx=ctx, msg=msg, fg="green", response=response)
 
 
 def logout(ctx):
@@ -97,10 +97,10 @@ def logout(ctx):
         del netrc.hosts[domain]
         netrc.save()
         msg = f"Logged out {creds[1]}"
-        _exit(ctx, msg, response=response, fg="green", error_code=0)
+        _exit(ctx=ctx, msg=msg, response=response, fg="green", error_code=0)
     else:
         _exit(
-            ctx,
+            ctx=ctx,
             msg=f"No user logged in!",
             fg="yellow",
             error_code=-1,
