@@ -65,3 +65,11 @@ def whoami(ctx):
     from flint.commands.user import whoami
 
     whoami(ctx)
+
+
+@click.command("show-logs", help="Open socket connection to server")
+@click.pass_context
+def show_logs(ctx):
+    from flint.commands.user import show_logs
+
+    show_logs(ctx)
