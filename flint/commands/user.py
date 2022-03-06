@@ -57,5 +57,5 @@ def show_logs(ctx):
         on_message=on_message,
         on_open=on_open,
     )
-    
+
     ws.run_forever()
